@@ -11,11 +11,8 @@ from services.service import *
 @dp.message_handler(commands=['start'], state=None)
 async def start(message: types.Message):
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="😎 WEB APP", web_app=WebAppInfo(url=f"https://www.twitch.tv/bratishkinoff"))]
+        [InlineKeyboardButton(text="😎 WEB APP", web_app=WebAppInfo(url=f"https://127.0.0.1:8000/"))]
     ])
-    try:
-        await message.reply("TEST WEB APP", reply_markup=keyboard)
-    except:
-        await message.answer("НЕ РАБОТАЕТ")
+    await message.reply("TEST WEB APP", reply_markup=keyboard)
 
       

@@ -33,3 +33,5 @@ packages/
 
 *config.py
 __pycache__
+/FrontAndBackEnd/game/game/__init__.py
+/FrontAndBackEnd/game/game/settings.py
