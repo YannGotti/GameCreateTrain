@@ -35,3 +35,4 @@ packages/
 __pycache__
 /FrontAndBackEnd/game/game/__init__.py
 /FrontAndBackEnd/game/game/settings.py
+/FrontAndBackEnd/node_modules/
