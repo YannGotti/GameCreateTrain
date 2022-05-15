@@ -15,9 +15,11 @@ engine = create_engine(CONNECTION_STRING)
 
 session = Session(bind=engine)
 
-def addUser(chat_id):
+def addUser(chat_id, username, code):
     session.add(User(
         chat_id=chat_id,
+        username=username,
+        code=code,
     ))
     session.commit()
 

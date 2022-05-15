@@ -2,6 +2,8 @@ var dir = "/client/templates"
 const { setDefaultResultOrder } = require('dns');
 
 require('./server/entity')
+require('./server/db')
+
 
 var express = require('express');
 var app = express();
@@ -70,4 +72,4 @@ setInterval(function(){
         socket.emit('newPositions', pack);
     }
     
-}, 1000/120);
+}, 1000/25);
