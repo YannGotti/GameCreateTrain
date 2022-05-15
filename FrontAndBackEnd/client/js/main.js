@@ -2,6 +2,10 @@
 console.log(window.screen.height + ":" + window.screen.width);
 
 
+var chatText = document.getElementById('chat-text');
+var chatInput = document.getElementById('chat-input');
+var chatForm = document.getElementById('chat-form');
+
 var ctx = document.getElementById('ctx').getContext("2d");
 ctx.font = '30px Arial';
 
@@ -9,9 +13,31 @@ var socket = io();
 
 socket.on('newPositions', function(data) {
     ctx.clearRect(0, 0, 500, 500);
-    for(var i = 0; i < data.length; i++)
-        ctx.fillText(data[i].number, data[i].x, data[i].y);
+    for(var i = 0; i < data.player.length; i++)
+        ctx.fillText(data.player[i].number, data.player[i].x, data.player[i].y);
+
+    for(var i = 0; i < data.bullet.length; i++)
+        ctx.fillRect(data.bullet[i].x - 5, data.bullet[i].y - 5, 10, 10);
 });
+
+
+socket.on('addToChat', function(data) {
+    chatText.innerHTML += '<div>' + data + '</div>';
+});
+
+socket.on('evalAnswer', function(data) {
+    console.log(data);
+});
+
+
+chatForm.onsubmit = function(e) {
+    e.preventDefault();
+    if(chatInput.value[0] === '/')
+        socket.emit('evalServer' , chatInput.value.slice(1));
+    else
+        socket.emit('sendMsgToServer' , chatInput.value);
+    chatInput.value = '';
+}
 
 document.onkeydown = function(event) {
     if(event.keyCode  === 68) //d
