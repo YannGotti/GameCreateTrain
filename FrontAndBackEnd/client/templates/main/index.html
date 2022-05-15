@@ -10,14 +10,28 @@
     <link rel="stylesheet" href="/client/css/main/main.css">
 </head>
     <body>
-        <div class="container">
+        <div class="container" id="signDiv">
+            <div class="row d-flex justify-content-center">
+                <div class="col-3 col-lg-2 mt-5 mb-5">
+                    Username: <input id="signDiv-username" type="text"><br>
+                    Password: <input id="signDiv-password" type="text"><br>
+                    <div class="buttonSign">
+                        <button id="signDiv-signIn">SignIn</button>
+                        <button id="signDiv-signUp">SignUp</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+
+        <div class="container" id="gameDiv" style="display: none;">
+            
             <div class="row">
                 <canvas id="ctx" width="500", height="500" style="border:1px solid #000000"></canvas>
             </div>
             <div class="row">
                 <div id="chat-text" style="width: 750px;height: 100px; overflow-y: scroll;">
                     <div>
-                        Hello!
                     </div>
                 </div>
                 <form id="chat-form" action="">
@@ -29,5 +43,7 @@
 
         <script src="https://cdn.socket.io/4.5.0/socket.io.js"></script>
         <script src="/client/js/main.js"></script>
+        <script src="/client/js/login.js"></script>
+
     </body>
 </html>

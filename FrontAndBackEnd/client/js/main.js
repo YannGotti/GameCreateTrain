@@ -5,12 +5,15 @@ console.log(window.screen.height + ":" + window.screen.width);
 var chatText = document.getElementById('chat-text');
 var chatInput = document.getElementById('chat-input');
 var chatForm = document.getElementById('chat-form');
+gameDiv = document.getElementById('gameDiv');
 
 var ctx = document.getElementById('ctx').getContext("2d");
 ctx.font = '30px Arial';
 
 var socket = io();
 
+
+//game
 socket.on('newPositions', function(data) {
     ctx.clearRect(0, 0, 500, 500);
     for(var i = 0; i < data.player.length; i++)
