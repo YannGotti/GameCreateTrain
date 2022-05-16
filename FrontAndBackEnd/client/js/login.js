@@ -1,20 +1,13 @@
 //login
 
 var signDiv = document.getElementById('signDiv');
-var signDivUsername = document.getElementById('signDiv-username');
+var signDivCode = document.getElementById('signDiv-code');
 var signDivSignIn = document.getElementById('signDiv-signIn');
-var signDivSignUp = document.getElementById('signDiv-signUp');
-var signDivPassword = document.getElementById('signDiv-password');
 
 signDivSignIn.onclick = function() {
-    socket.emit('signIn', {username:signDivUsername.value,
-         password:signDivPassword.value});
+    socket.emit('signIn', {code:signDivCode.value});
 }
 
-signDivSignUp.onclick = function() {
-    socket.emit('signUp', {username:signDivUsername.value,
-         password:signDivPassword.value});
-}
 
 socket.on('signInResponse', function(data) {
     if(data.success){
@@ -24,9 +17,3 @@ socket.on('signInResponse', function(data) {
         alert("Не авторизован дебил");
 });
 
-socket.on('signUpResponse', function(data) {
-    if(data.success){
-        alert("Зареган");
-    }else
-        alert("Не зареган");
-});

@@ -33,12 +33,6 @@ var PLAYER_LIST = {
 
 var DEBUG = true;
 
-var USERS = {
-    //USERNAME:PASSWORD
-    "asd":"asd"
-}
-
-
 var io = require('socket.io') (serv, {});
 io.sockets.on('connection', function(socket){
     socket.id = Math.random();
@@ -55,19 +49,6 @@ io.sockets.on('connection', function(socket){
         });
     });
 
-    socket.on('signUp', function(data){
-        isUsernameTaken(data, function(res){
-            if(res) {
-                socket.emit('signUpResponse', {success:false});
-            } else {
-                addUser(data, function(){
-                    socket.emit('signUpResponse', {success:true});
-                });
-            }
-        });
-    });
-
-    
 
     socket.on('disconnect', function() {
         delete SOCKET_LIST[socket.id];
