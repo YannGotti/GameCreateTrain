@@ -26,12 +26,12 @@ Entity = function() {
 
 };
 
-Player = function(id, username) {
+Player = function(id) {
     var self = Entity();
 
     self.id = id;
     self.number = "" + Math.floor(10 * Math.random());
-    self.username = username;
+    self.username = "" + username;
     self.pressingRight = false;
     self.pressingLeft = false;
     self.pressingUp = false;
@@ -79,8 +79,8 @@ Player = function(id, username) {
 }
 
 Player.list = {};
-Player.onConnect = function(socket, username) {
-    var player = Player(socket.id, username);
+Player.onConnect = function(socket) {
+    var player = Player(socket.id);
 
     socket.on('keyPress', function(data) {
         if(data.inputId === 'left')
@@ -110,7 +110,7 @@ Player.update = function() {
         pack.push({
             x:player.x,
             y:player.y,
-            number:player.number
+            number:player.number,
         });
     }
     return pack;

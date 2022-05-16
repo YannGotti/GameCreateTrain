@@ -27,14 +27,15 @@ serv.listen(8000);
 console.log("server started.");
 
 var SOCKET_LIST = {};
-var PLAYER_LIST = {};
+var PLAYER_LIST = {
+};
 
 
 var DEBUG = true;
 
 var USERS = {
     //USERNAME:PASSWORD
-    "bob":"bob"
+    "asd":"asd"
 }
 
 var isValidPassword = function(data, cb){
@@ -65,7 +66,7 @@ io.sockets.on('connection', function(socket){
     socket.on('signIn', function(data){
         isValidPassword(data, function(res){
             if(res) {
-                Player.onConnect(socket, data.username);
+                Player.onConnect(socket);
                 socket.emit('signInResponse', {success:true});
             } else {
                 socket.emit('signInResponse', {success:false});
