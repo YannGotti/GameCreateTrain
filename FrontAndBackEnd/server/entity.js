@@ -31,7 +31,6 @@ Player = function(id) {
 
     self.id = id;
     self.number = "" + Math.floor(10 * Math.random());
-    self.username = "" + username;
     self.pressingRight = false;
     self.pressingLeft = false;
     self.pressingUp = false;

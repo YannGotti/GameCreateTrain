@@ -10,7 +10,7 @@ from services.service import *
 
 @dp.message_handler(commands=['start'], state=None)
 async def start(message: types.Message):
-    if (not userExists(message.chat.id)):
+    if (userExists(message.chat.id) != None):
         addUser(message.chat.id, message.from_user.username, "ASDDSA")
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text="😎 WEB APP", web_app=WebAppInfo(url=f"https://127.0.0.1:8000"))]

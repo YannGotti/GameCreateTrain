@@ -2,7 +2,7 @@ var dir = "/client/templates"
 const { setDefaultResultOrder } = require('dns');
 
 require('./server/entity')
-require('./server/db')
+require('./server/mongo')
 
 
 var express = require('express');
@@ -36,25 +36,6 @@ var DEBUG = true;
 var USERS = {
     //USERNAME:PASSWORD
     "asd":"asd"
-}
-
-var isValidPassword = function(data, cb){
-    setTimeout(function() {
-        cb(USERS[data.username] === data.password);
-    }, 10);
-}
-
-var isUsernameTaken = function(data, cb){
-    setTimeout(function() {
-        cb(USERS[data.username]);
-    }, 10);
-}
-
-var addUser = function(data, cb){
-    setTimeout(function() {
-        USERS[data.username] = data.password;
-        cb();
-    }, 10);
 }
 
 

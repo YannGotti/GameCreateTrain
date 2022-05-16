@@ -1,27 +1,12 @@
-from config import CONNECTION_STRING
-from data.entities import *
+import pymongo
+import config
 
-from sqlalchemy import create_engine
-from sqlalchemy.orm import Session
+client = pymongo.MongoClient(config.CONNECTION_STRING)
 
-from config import CONNECTION_STRING
-from data.entities import *
-
-from sqlalchemy import create_engine
-from sqlalchemy.orm import Session
-
-
-engine = create_engine(CONNECTION_STRING)
-
-session = Session(bind=engine)
+db = client['myGame']
 
 def addUser(chat_id, username, code):
-    session.add(User(
-        chat_id=chat_id,
-        username=username,
-        code=code,
-    ))
-    session.commit()
+    db['users'].insert_one({"username":username, "chat_id":chat_id, "code":code })
 
 def userExists(chat_id):
-    return session.query(User).filter(User.chat_id == chat_id).count() > 0
+    db['users'].find({"chat_id":chat_id})
