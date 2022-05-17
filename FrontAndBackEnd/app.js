@@ -26,8 +26,8 @@ app.use('/client', express.static(__dirname + '/client'));
 serv.listen(8000);
 console.log("server started.");
 
-var SOCKET_LIST = {};
-var PLAYER_LIST = {
+SOCKET_LIST = {};
+PLAYER_LIST = {
 };
 
 
@@ -71,16 +71,3 @@ io.sockets.on('connection', function(socket){
 
     
 });
-
-setInterval(function(){
-    var pack = {
-        player:Player.update(),
-        bullet:Bullet.update(),
-    }
-
-    for (var i in SOCKET_LIST){
-        var socket = SOCKET_LIST[i];
-        socket.emit('newPositions', pack);
-    }
-    
-}, 1000/120);

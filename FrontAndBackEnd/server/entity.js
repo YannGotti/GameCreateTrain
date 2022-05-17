@@ -28,6 +28,7 @@ Entity = function() {
 
 Player = function(id, code) {
     var self = Entity();
+
     self.id = id;
     self.number = "" + Math.floor(10 * Math.random());
     self.pressingRight = false;
@@ -38,8 +39,11 @@ Player = function(id, code) {
     self.mouseAngle = 0;
     self.maxSpd = 10;
 
+
     isSelectUsername(code, function(res){
-        self.username = res;
+        pensil = function(data){
+            return data;
+        }
     });
 
     var super_update = self.update;
@@ -76,6 +80,14 @@ Player = function(id, code) {
     }
 
     Player.list[id] = self;
+    
+    initPack.player.push({
+        id:self.id,
+        x:self.x,
+        y:self.y,
+        number:self.number,
+        username:self.username,
+    });
 
     return self;
 }
@@ -102,6 +114,7 @@ Player.onConnect = function(socket, code) {
 
 Player.onDisconnect = function(socket) {
     delete Player.list[socket.id];
+    removePack.player.push(socket.id);
 }
 
 Player.update = function() {
@@ -110,9 +123,9 @@ Player.update = function() {
         var player = Player.list[i];
         player.update();
         pack.push({
+            id:player.id,
             x:player.x,
             y:player.y,
-            username:player.username,
         });
     }
     return pack;
@@ -143,6 +156,13 @@ Bullet = function(parent, angle) {
         }
     }
     Bullet.list[self.id] = self;
+
+    initPack.bullet.push({
+        id:self.id,
+        x:self.x,
+        y:self.y,
+    });
+
     return self;
 }
 
@@ -155,13 +175,40 @@ Bullet.update = function() {
     for(var i in Bullet.list){
         var bullet = Bullet.list[i];
         bullet.update();
-        if(bullet.toRemove)
+        if(bullet.toRemove){
             delete Bullet.list[i];
+            removePack.bullet.push(bullet.id);
+        }
         else
             pack.push({
+                id:bullet.id,
                 x:bullet.x,
                 y:bullet.y,
             });
     }
     return pack;
 }
+
+var initPack = {player:[], bullet:[]};
+var removePack = {player:[], bullet:[]};
+
+
+setInterval(function(){
+    var pack = {
+        player:Player.update(),
+        bullet:Bullet.update(),
+    }
+
+    for (var i in SOCKET_LIST){
+        var socket = SOCKET_LIST[i];
+        socket.emit('init', initPack);
+        socket.emit('update', pack);
+        socket.emit('remove', removePack);
+    }
+
+    initPack.player = [];
+    initPack.bullet = [];
+    removePack.player = [];
+    removePack.bullet = [];
+    
+}, 1000/25);
