@@ -28,10 +28,8 @@ Entity = function() {
 
 Player = function(id, code) {
     var self = Entity();
-
     self.id = id;
     self.number = "" + Math.floor(10 * Math.random());
-    self.username = db.users.find({code:code});
     self.pressingRight = false;
     self.pressingLeft = false;
     self.pressingUp = false;
@@ -39,6 +37,10 @@ Player = function(id, code) {
     self.pressingAttack = false;
     self.mouseAngle = 0;
     self.maxSpd = 10;
+
+    isSelectUsername(code, function(res){
+        self.username = res;
+    });
 
     var super_update = self.update;
     self.update = function() {
@@ -110,8 +112,7 @@ Player.update = function() {
         pack.push({
             x:player.x,
             y:player.y,
-            number:player.number,
-            username:player.username
+            username:player.username,
         });
     }
     return pack;

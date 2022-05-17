@@ -20,6 +20,13 @@ isUsernameTaken = function(data, cb){
     });
 }
 
+
+isSelectUsername = function(code, cb){
+    db.users.findOne({code:code}, function(err, doc) {
+        cb(doc.username.toString());
+    });
+}
+
 /*addUser = function(data, cb){
     db.users.insert({code:data.code}, function(err) {
         cb();
