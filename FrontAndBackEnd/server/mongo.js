@@ -1,5 +1,5 @@
-mongojs = require("mongojs");
-var db = mongojs('localhost:27017/myGame', ['users', 'account', 'progress']);
+var mongojs = require("mongojs");
+db = mongojs('localhost:27017/myGame', ['users', 'account', 'progress']);
 
 
 isValidPassword = function(data, cb){
@@ -8,7 +8,6 @@ isValidPassword = function(data, cb){
             cb(true);
         else
             cb(false);
-            
     });
 }
 
