@@ -1,6 +1,9 @@
 
 console.log(window.screen.height + ":" + window.screen.width);
 
+
+
+
 var socket = io();
 
 var chatText = document.getElementById('chat-text');
@@ -33,9 +36,14 @@ chatForm.onsubmit = function(e) {
 
 
 //game
-
-var ctx = document.getElementById('ctx').getContext("2d");
+//const WINDOW_WIDTH = window.screen.width;
+//const WINDOW_HEIGHT = window.screen.height;
+var c = document.getElementById('ctx');
+var ctx = c.getContext("2d");
 ctx.font = '30px Arial';
+//c.height = WINDOW_HEIGHT;
+//c.width = WINDOW_WIDTH;
+
 
 var Player = function(initPack) {
     var self = {};
@@ -108,6 +116,8 @@ socket.on('remove', function(data) {
         delete Bullet.list[data.bullet[i]];
     }
 });
+
+
 
 setInterval(function() {
     ctx.clearRect(0, 0, 500, 500);

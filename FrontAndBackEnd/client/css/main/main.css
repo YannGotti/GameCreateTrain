@@ -1,4 +1,8 @@
 
-.buttonSign{
-    margin-top: 10px;
+#signDiv{
+    margin-top: 15%;
+}
+
+.border {
+    border: 2px solid black;
 }
