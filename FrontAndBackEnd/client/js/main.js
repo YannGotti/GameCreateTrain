@@ -45,7 +45,6 @@ var Player = function(initPack) {
     self.x = initPack.x;
     self.y = initPack.y;
     Player.list[self.id] = self;
-    console.log(initPack);
     return self;
 }
 Player.list = {};
@@ -117,7 +116,7 @@ setInterval(function() {
 
     for(var i in Bullet.list)
         ctx.fillRect(Bullet.list[i].x - 5, Bullet.list[i].y - 5, 10, 10);
-}, 40);
+}, 25);
 
 
 document.onkeydown = function(event) {

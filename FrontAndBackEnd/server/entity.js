@@ -39,11 +39,8 @@ Player = function(id, code) {
     self.mouseAngle = 0;
     self.maxSpd = 10;
 
-
     isSelectUsername(code, function(res){
-        pensil = function(data){
-            return data;
-        }
+        self.username = res;
     });
 
     var super_update = self.update;
@@ -81,13 +78,16 @@ Player = function(id, code) {
 
     Player.list[id] = self;
     
-    initPack.player.push({
-        id:self.id,
-        x:self.x,
-        y:self.y,
-        number:self.number,
-        username:self.username,
-    });
+    setTimeout(function() {
+        initPack.player.push({
+            id:self.id,
+            x:self.x,
+            y:self.y,
+            number:self.number,
+            username:self.username,
+        });
+    }, 5);
+    
 
     return self;
 }
@@ -211,4 +211,4 @@ setInterval(function(){
     removePack.player = [];
     removePack.bullet = [];
     
-}, 1000/25);
+}, 1000/120);
