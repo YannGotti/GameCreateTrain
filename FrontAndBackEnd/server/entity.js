@@ -38,6 +38,9 @@ Player = function(id, code) {
     self.pressingAttack = false;
     self.mouseAngle = 0;
     self.maxSpd = 10;
+    self.hp = 10;
+    self.hpMax = 10;
+    self.score = 0;
 
     isSelectUsername(code, function(res){
         self.username = res;
@@ -83,6 +86,9 @@ Player = function(id, code) {
             y:self.y,
             number:self.number,
             username:self.username,
+            hp:self.hp,
+            hpMax:self.hpMax,
+            score:self.score,
         };
     }
 
@@ -91,6 +97,8 @@ Player = function(id, code) {
             id:self.id,
             x:self.x,
             y:self.y,
+            hp:self.hp,
+            score:self.score,
         };
     }
 
@@ -171,6 +179,16 @@ Bullet = function(parent, angle) {
             var p = Player.list[i];
             if(self.getDistance(p) < 32 && self.parent !== p.id) {
                 // Обработка состояния игрока
+                p.hp -= 1;
+                if(p.hp <= 0){
+                    var shooter = Player.list[self.parent];
+                    if(shooter)
+                        shooter.score += 1;
+                    p.hp = p.hpMax;
+                    p.x = Math.random() * 500;
+                    p.y = Math.random() * 500;
+                }
+
                 self.toRemove = true;
             }
 
@@ -249,4 +267,4 @@ setInterval(function(){
     removePack.player = [];
     removePack.bullet = [];
     
-}, 1000/120);
+}, 1000/60);
