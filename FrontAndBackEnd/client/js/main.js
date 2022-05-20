@@ -126,7 +126,7 @@ setInterval(function() {
 
     for(var i in Bullet.list)
         ctx.fillRect(Bullet.list[i].x - 5, Bullet.list[i].y - 5, 10, 10);
-}, 25);
+}, 1);
 
 
 document.onkeydown = function(event) {

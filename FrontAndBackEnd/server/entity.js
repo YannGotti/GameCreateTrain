@@ -76,16 +76,29 @@ Player = function(id, code) {
             self.spdY = 0;
     }
 
-    Player.list[id] = self;
-    
-    setTimeout(function() {
-        initPack.player.push({
+    self.getInitPack = function() {
+        return {
             id:self.id,
             x:self.x,
             y:self.y,
             number:self.number,
             username:self.username,
-        });
+        };
+    }
+
+    self.getUpdatePack = function() {
+        return {
+            id:self.id,
+            x:self.x,
+            y:self.y,
+        };
+    }
+
+
+    Player.list[id] = self;
+    
+    setTimeout(function() {
+        initPack.player.push(self.getInitPack());
     }, 5);
     
 
@@ -110,6 +123,18 @@ Player.onConnect = function(socket, code) {
         else if(data.inputId === 'mouseAngle')
             player.mouseAngle = data.state;
     });
+
+    socket.emit('init', {
+        player:Player.getAllInitPack(),
+        bullet:Bullet.getAllInitPack(),
+    });
+}
+
+Player.getAllInitPack = function(){
+    var players = [];
+    for(var i in Player.list)
+        players.push(Player.list[i].getInitPack())
+    return players;
 }
 
 Player.onDisconnect = function(socket) {
@@ -122,11 +147,7 @@ Player.update = function() {
     for(var i in Player.list){
         var player = Player.list[i];
         player.update();
-        pack.push({
-            id:player.id,
-            x:player.x,
-            y:player.y,
-        });
+        pack.push(player.getUpdatePack());
     }
     return pack;
 }
@@ -155,13 +176,26 @@ Bullet = function(parent, angle) {
 
         }
     }
-    Bullet.list[self.id] = self;
 
-    initPack.bullet.push({
-        id:self.id,
-        x:self.x,
-        y:self.y,
-    });
+    self.getInitPack = function() {
+        return {
+            id:self.id,
+            x:self.x,
+            y:self.y
+        };
+    }
+
+    self.getUpdatePack = function() {
+        return {
+            id:self.id,
+            x:self.x,
+            y:self.y
+        };
+    }
+
+
+    Bullet.list[self.id] = self;
+    initPack.bullet.push(self.getInitPack());
 
     return self;
 }
@@ -180,14 +214,18 @@ Bullet.update = function() {
             removePack.bullet.push(bullet.id);
         }
         else
-            pack.push({
-                id:bullet.id,
-                x:bullet.x,
-                y:bullet.y,
-            });
+            pack.push(bullet.getUpdatePack());
     }
     return pack;
 }
+
+Bullet.getAllInitPack = function(){
+    var bullets = [];
+    for(var i in Bullet.list)
+        bullets.push(Bullet.list[i].getInitPack());
+    return bullets;
+}
+
 
 var initPack = {player:[], bullet:[]};
 var removePack = {player:[], bullet:[]};
