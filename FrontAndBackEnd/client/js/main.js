@@ -39,14 +39,18 @@ chatForm.onsubmit = function(e) {
 
 var Img = {};
 Img.player = new Image();
-Img.player.src = '/client/img/player1.png'
+Img.player.src = '/client/img/player.png'
+Img.bullet = new Image();
+Img.bullet.src = '/client/img/bullet.png'
+Img.map = new Image();
+Img.map.src = '/client/img/map.png'
 
 
 //const WINDOW_WIDTH = window.screen.width;
 //const WINDOW_HEIGHT = window.screen.height;
 var c = document.getElementById('ctx');
 var ctx = c.getContext("2d");
-ctx.font = '30px Arial';
+ctx.font = '13px Arial';
 //c.height = WINDOW_HEIGHT;
 //c.width = WINDOW_WIDTH;
 
@@ -65,10 +69,17 @@ var Player = function(initPack) {
 
     self.draw = function() {
         var hpWidth = 30 * self.hp / self.hpMax;
-        ctx.fillRect(self.x - hpWidth/2, self.y - 40, hpWidth, 4);
-        ctx.fillText(self.username, self.x, self.y);
+        ctx.fillStyle = 'red';
+        ctx.fillRect(self.x - hpWidth/2, self.y - 20, hpWidth, 4);
+        ctx.fillText(self.username, self.x - 17, self.y - 25)
+        var width = Img.player.width;
+        var height = Img.player.height;
 
-        ctx.fillText(self.score, self.x, self.y - 60);
+        ctx.drawImage(Img.player,
+            0,0, Img.player.width, Img.player.height,
+            self.x-width/2, self.y-height/2, width, height)
+
+        //ctx.fillText(self.score, self.x, self.y - 60);
     }
 
     Player.list[self.id] = self;
@@ -84,7 +95,11 @@ var Bullet = function(initPack) {
     self.y = initPack.y;
 
     self.draw = function() {
-        ctx.fillRect(self.x - 5, self.y - 5, 10, 10);
+        var width = Img.bullet.width;
+        var height = Img.bullet.height;
+        ctx.drawImage(Img.bullet,
+            0,0, Img.bullet.width, Img.bullet.height,
+            self.x-width/2, self.y-height/2, width, height)
     }
 
     Bullet.list[self.id] = self;
@@ -149,11 +164,16 @@ socket.on('remove', function(data) {
 
 setInterval(function() {
     ctx.clearRect(0, 0, 500, 500);
+    drawMap();
     for(var i in Player.list)
         Player.list[i].draw();
     for(var i in Bullet.list)
         Bullet.list[i].draw();
 }, 1);
+
+var drawMap = function() {
+    ctx.drawImage (Img.map,0 ,0);
+}
 
 
 document.onkeydown = function(event) {
