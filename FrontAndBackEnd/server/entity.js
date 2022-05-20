@@ -5,7 +5,6 @@ Entity = function() {
         x:250,
         y:250,
         spdX:0,
-        spdY:0,
         id:"",
     }
 
@@ -15,11 +14,10 @@ Entity = function() {
 
     self.updatePosition = function() {
         self.x += self.spdX;
-        self.y += self.spdY;
     }
 
     self.getDistance = function(pt) {
-        return Math.sqrt(Math.pow(self.x-pt.x, 2) + Math.pow(self.y-pt.y, 2));
+        return Math.sqrt(Math.pow(self.x-pt.x, 2));
     }
 
     return self;
@@ -33,8 +31,6 @@ Player = function(id, code) {
     self.number = "" + Math.floor(10 * Math.random());
     self.pressingRight = false;
     self.pressingLeft = false;
-    self.pressingUp = false;
-    self.pressingDown = false;
     self.pressingAttack = false;
     self.mouseAngle = 0;
     self.maxSpd = 10;
@@ -59,7 +55,6 @@ Player = function(id, code) {
     self.shootBullet = function(angle) {
         var b = Bullet(self.id, angle);
         b.x = self.x;
-        b.y = self.y;
     }
 
 
@@ -71,12 +66,12 @@ Player = function(id, code) {
             self.spdX = -self.maxSpd;
         else
             self.spdX = 0;
-        if(self.pressingUp)
-            self.spdY = -self.maxSpd;
-        else if (self.pressingDown)
-            self.spdY = self.maxSpd;
-        else
-            self.spdY = 0;
+        //if(self.pressingUp)
+        //    self.spdY = -self.maxSpd;
+        //else if (self.pressingDown)
+        //    self.spdY = self.maxSpd;
+        //else
+        //    self.spdY = 0;
     }
 
     self.getInitPack = function() {
@@ -96,7 +91,6 @@ Player = function(id, code) {
         return {
             id:self.id,
             x:self.x,
-            y:self.y,
             hp:self.hp,
             score:self.score,
         };
@@ -122,10 +116,10 @@ Player.onConnect = function(socket, code) {
             player.pressingLeft = data.state;
         else if(data.inputId === 'right')
             player.pressingRight = data.state;
-        else if(data.inputId === 'up')
-            player.pressingUp = data.state;
-        else if(data.inputId === 'down')
-            player.pressingDown = data.state;
+        //else if(data.inputId === 'up')
+        //    player.pressingUp = data.state;
+        //else if(data.inputId === 'down')
+        //    player.pressingDown = data.state;
         else if(data.inputId === 'attack')
             player.pressingAttack = data.state;
         else if(data.inputId === 'mouseAngle')
@@ -164,7 +158,6 @@ Bullet = function(parent, angle) {
     var self = Entity();
     self.id = Math.random();
     self.spdX = Math.cos(angle/180*Math.PI) * 10;
-    self.spdY = Math.sin(angle/180*Math.PI) * 10;
     self.parent = parent;
 
     self.timer = 0;
@@ -186,7 +179,7 @@ Bullet = function(parent, angle) {
                         shooter.score += 1;
                     p.hp = p.hpMax;
                     p.x = Math.random() * 500;
-                    p.y = Math.random() * 500;
+                    p.y = 250;
                 }
 
                 self.toRemove = true;
@@ -207,7 +200,6 @@ Bullet = function(parent, angle) {
         return {
             id:self.id,
             x:self.x,
-            y:self.y
         };
     }
 
