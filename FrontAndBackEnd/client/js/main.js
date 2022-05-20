@@ -36,6 +36,12 @@ chatForm.onsubmit = function(e) {
 
 
 //game
+
+var Img = {};
+Img.player = new Image();
+Img.player.src = '/client/img/player1.png'
+
+
 //const WINDOW_WIDTH = window.screen.width;
 //const WINDOW_HEIGHT = window.screen.height;
 var c = document.getElementById('ctx');
